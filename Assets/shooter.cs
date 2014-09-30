@@ -7,6 +7,9 @@ public class shooter : MonoBehaviour {
 	public Transform blockjes;
 	public GameObject bullet;
 	private Transform Target;
+	public bool block = true;
+	public int aantal = 100;
+	public int counter = 0;
 	public List<Transform> targets = new List<Transform>();
 	
 	public enum States
@@ -34,18 +37,22 @@ public class shooter : MonoBehaviour {
 	void Update () {
 		transform.LookAt (Target);
 
+		if (aantal == 0) {
+				
+			saw = false;
+			block = false;
+		}
 		if (state == States.patrolState && saw == true) {
-			state = States.chaseState;
+						state = States.chaseState;
 
-		}
-		else if (state == States.chaseState) {	
-			state = States.attackState;
-		}
-		else if(state == States.attackState)
-		{
-			shoot();
-			state = States.patrolState;
-		}
+				} else if (state == States.chaseState) {	
+						state = States.attackState;
+				} else if (state == States.attackState) {
+						shoot ();
+						state = States.patrolState;
+				} else if (saw == false && block == false) {
+						Destroy(GetComponent<shooter>());
+				}
 
 
 
@@ -65,8 +72,14 @@ public class shooter : MonoBehaviour {
 			saw = false;
 		}
 	}
-
 	void shoot(){
-		Instantiate(bullet, transform.position, transform.rotation);
+
+		if (counter == 0) {
+Instantiate (bullet, transform.position, transform.rotation); 
+			counter +=30;
+				}
+		counter --;
+
+		aantal--;
 	}
 }
