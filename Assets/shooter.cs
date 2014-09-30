@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class shooter : MonoBehaviour {
 	public bool saw;
-	public bool inrange;
 	public Transform blockjes;
 	public GameObject bullet;
 	private Transform Target;
@@ -39,7 +38,7 @@ public class shooter : MonoBehaviour {
 			state = States.chaseState;
 
 		}
-		else if (state == States.chaseState && inrange == true) {	
+		else if (state == States.chaseState) {	
 			state = States.attackState;
 		}
 		else if(state == States.attackState)
@@ -55,13 +54,15 @@ public class shooter : MonoBehaviour {
 		if (other.tag == "enemy") {
 			Target = other.transform;
 			targets.Add(Target);
+			saw = true;
 		}
 	}
 	
-	void OnTriggerExit(Collider other){
+	void OnTrigeExit(Collider other){
 		if (other.tag == "enemy") {
 			Target = other.transform;
 			targets.Remove(Target);
+			saw = false;
 		}
 	}
 
